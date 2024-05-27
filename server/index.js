@@ -6,7 +6,7 @@ let path = require('path');
 // Set up static file service for files in the `client/dist` directory.
 // Webpack is configured to generate files in that directory and
 // this server must serve those files when requested.
-app.use(express.static(path.join(__dirName, '../client/dist' )));
+app.use(express.static(path.join(__dirname, '../client/dist' )));
 
 app.post('/repos', function (req, res) {
   // TODO - your code here!
