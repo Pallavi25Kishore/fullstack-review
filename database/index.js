@@ -2,7 +2,28 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
-  // TODO: your schema here!
+  id: Number,
+  name: String,
+  full_name: String,
+  owner: {
+    name: String,
+    email: String,
+    login: String,
+    id: Number,
+    url: String,
+    html_url: String
+  },
+  private: Boolean,
+  html_url: String,
+  description: String,
+  fork: Boolean,
+  url: String,
+  forks_count: Number,
+  stargazers_count: Number,
+  watchers_count: Number,
+  pushed_at: String,
+  created_at: String,
+  updated_at: String
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
