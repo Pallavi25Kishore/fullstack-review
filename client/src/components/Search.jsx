@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Search = ({ onSearch }) => {
 
@@ -12,7 +13,7 @@ const Search = ({ onSearch }) => {
   const search = (event) => {
     //onSearch(term);
     event.preventDefault();
-    axios.post('/repose', {reponame: term})
+    axios.post('/repos', {reponame: term})
     .then((response) => {
        console.log('posted', response);
        //axios.get() // fill in
