@@ -1,16 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import axios from 'axios';
 
 const App = () => {
 
   const [repos, setRepos] = useState([]);
 
+  useEffect(() => {
+    axios.get('/repos')
+      .then((response) => {
+       setRepos(response.data);
+      })
+      .catch((error) => {
+      console.log(error);
+      });
+  }, []);
+
   const search = (term) => {
-    console.log(`${term} was searched`);
-  }
+    axios.post('/repos', {reponame: term})
+    .then((response) => {
+       console.log('posted', response);
+       axios.get('/repos')
+       .then((response) => {
+        setRepos(response.data);
+        console.log('gotten repo array', repos);
+       })
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
 
   return (
     <div>

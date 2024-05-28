@@ -1,7 +1,8 @@
 const express = require('express');
 let app = express();
 let path = require('path');
-let getRepos = require('../helpers/github.js');
+let {getReposByUsername} = require('../helpers/github.js');
+let dbHelper = require('../database/index.js');
 
 // TODO - your code here!
 // Set up static file service for files in the `client/dist` directory.
@@ -12,11 +13,19 @@ app.use(express.json());
 
 app.post('/repos', function (req, res) {
   var username = req.body.reponame;
-  getRepos.getReposByUsername(username, (err, response) => {
+  getReposByUsername(username, (err, response) => {
     if (err) {
       res.status(400);
     } else {
-      res.status(200).json(response); //- save to database
+      console.log('sending for saving');
+      dbHelper.save(response, (err) => {
+        if (err) {
+          res.sendStatus(400);
+        } else {
+          console.log('sending back status');
+          res.sendStatus(201);
+        }
+      });
     }
   })
 
@@ -29,6 +38,14 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  dbHelper.getTop25((err, result) => {
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      res.status(200).json(result);
+    }
+  });
+
 });
 
 let port = 1128;

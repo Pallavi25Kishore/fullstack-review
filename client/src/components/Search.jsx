@@ -11,17 +11,9 @@ const Search = ({ onSearch }) => {
   }
 
   const search = (event) => {
-    //onSearch(term);
     event.preventDefault();
-    axios.post('/repos', {reponame: term})
-    .then((response) => {
-       console.log('posted', response);
-       //axios.get() // fill in
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    setTerm('');
+    console.log('term', term);
+    onSearch(term);
   }
 
   return (
